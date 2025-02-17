@@ -1,4 +1,4 @@
-FROM golang:1.23 as builder
+FROM golang:1.23 AS builder
 
 # Set the Current Working Directory inside the container
 WORKDIR /app
@@ -13,7 +13,7 @@ RUN go mod download
 COPY . .
 
 # Build the Go app
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go_block_go .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go_block_go ./cmd/main.go
 
 FROM alpine:latest
 
