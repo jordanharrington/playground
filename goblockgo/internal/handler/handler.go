@@ -125,7 +125,7 @@ func listBlockchains(w http.ResponseWriter, _ *http.Request) {
 
 	var ids []string
 	for _, bc := range blockchains {
-		ids = append(ids, fmt.Sprintf("%x", bc.ID))
+		ids = append(ids, bc.ID)
 	}
 
 	err = json.NewEncoder(w).Encode(ids)
