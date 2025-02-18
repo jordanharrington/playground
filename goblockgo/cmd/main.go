@@ -6,17 +6,25 @@ import (
 	"github.com/jordanharrington/playground/goblockgo/internal/service"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
 	s := service.NewSimpleBlockchainService()
-	finish := make(chan bool)
-	// Serve http request on port 8080
-	go listen(s, ":8080")
-	// Start REPL
-	go startRepl(s, finish)
-	// Wait for REPL to exit
-	<-finish
+
+	mode := os.Getenv("MODE")
+	switch mode {
+	case "INTERACTIVE":
+		finish := make(chan bool)
+		// Serve http request on port 8080
+		go listen(s, ":8080")
+		// Start REPL
+		go startRepl(s, finish)
+		// Wait for REPL to exit
+		<-finish
+	default:
+		listen(s, ":8080")
+	}
 }
 
 func listen(service service.GoBlockGo, port string) {
