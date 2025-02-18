@@ -80,7 +80,8 @@ func createBlockchain(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := CreateBlockchainResponse{ID: fmt.Sprintf("%s", bc.ID)}
+	resp := CreateBlockchainResponse{ID: bc.ID}
+
 	err = json.NewEncoder(w).Encode(resp)
 	if err != nil {
 		return
@@ -107,6 +108,7 @@ func addBlock(w http.ResponseWriter, r *http.Request) {
 		PrevBlockHash: fmt.Sprintf("%x", block.PrevBlockHash),
 		Hash:          fmt.Sprintf("%x", block.Hash),
 	}
+
 	w.WriteHeader(http.StatusCreated)
 	err = json.NewEncoder(w).Encode(resp)
 	if err != nil {
@@ -114,7 +116,7 @@ func addBlock(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func listBlockchains(w http.ResponseWriter, r *http.Request) {
+func listBlockchains(w http.ResponseWriter, _ *http.Request) {
 	blockchains, err := s.ListBlockchains()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
