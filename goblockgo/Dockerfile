@@ -10,20 +10,21 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 # Copy the source code into the container
-COPY . .
+COPY cmd/ cmd/
+COPY internal/ internal/
 
 # Build the Go app
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go_block_go ./cmd/main.go
+RUN go build -o go_block_go ./cmd/main.go
 
-FROM alpine:latest
+FROM ubuntu:latest
 
 # Set the Current Working Directory inside the container
-WORKDIR /root/
+WORKDIR /app
 
 # Copy the Pre-built binary file from the previous stage
-COPY --from=builder /app/go_block_go .
+COPY --from=builder --chown=ubuntu:ubuntu /app/go_block_go .
 
-EXPOSE 8080
+# non-root user
+USER 1000
 
-# Command to run the executable
-CMD ["./go_block_go"]
+ENTRYPOINT ["./go_block_go"]
