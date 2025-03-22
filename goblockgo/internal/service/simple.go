@@ -11,13 +11,13 @@ import (
 	"syscall"
 )
 
-type SimpleBlockchainService struct {
+type simpleBlockchainService struct {
 	blockchains map[string]*data.Blockchain
 	lock        sync.RWMutex
 }
 
-func NewSimpleBlockchainService() *SimpleBlockchainService {
-	s := &SimpleBlockchainService{
+func NewSimpleBlockchainService() GoBlockGo {
+	s := &simpleBlockchainService{
 		blockchains: make(map[string]*data.Blockchain),
 	}
 
@@ -27,7 +27,7 @@ func NewSimpleBlockchainService() *SimpleBlockchainService {
 	return s
 }
 
-func load(s *SimpleBlockchainService) {
+func load(s *simpleBlockchainService) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -56,7 +56,7 @@ func load(s *SimpleBlockchainService) {
 	}
 }
 
-func save(s *SimpleBlockchainService) {
+func save(s *simpleBlockchainService) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -94,7 +94,7 @@ func writeFile(filename string, data []byte) {
 	}
 }
 
-func setupShutdownHook(s *SimpleBlockchainService) {
+func setupShutdownHook(s *simpleBlockchainService) {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
@@ -105,7 +105,7 @@ func setupShutdownHook(s *SimpleBlockchainService) {
 	}()
 }
 
-func (s *SimpleBlockchainService) CreateBlockchain(id string) (*data.Blockchain, error) {
+func (s *simpleBlockchainService) CreateBlockchain(id string) (*data.Blockchain, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -118,7 +118,7 @@ func (s *SimpleBlockchainService) CreateBlockchain(id string) (*data.Blockchain,
 	return bc, nil
 }
 
-func (s *SimpleBlockchainService) AddBlock(id string, data string) (*data.Block, error) {
+func (s *simpleBlockchainService) AddBlock(id string, data string) (*data.Block, error) {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
@@ -131,7 +131,7 @@ func (s *SimpleBlockchainService) AddBlock(id string, data string) (*data.Block,
 	return newBlock, nil
 }
 
-func (s *SimpleBlockchainService) GetBlockchain(id string) (*data.Blockchain, error) {
+func (s *simpleBlockchainService) GetBlockchain(id string) (*data.Blockchain, error) {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 
@@ -142,7 +142,7 @@ func (s *SimpleBlockchainService) GetBlockchain(id string) (*data.Blockchain, er
 	return bc, nil
 }
 
-func (s *SimpleBlockchainService) GetBlock(id string, hash string) (*data.Block, error) {
+func (s *simpleBlockchainService) GetBlock(id string, hash string) (*data.Block, error) {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 
@@ -160,7 +160,7 @@ func (s *SimpleBlockchainService) GetBlock(id string, hash string) (*data.Block,
 	return nil, fmt.Errorf("block not found")
 }
 
-func (s *SimpleBlockchainService) ListBlockchains() ([]*data.Blockchain, error) {
+func (s *simpleBlockchainService) ListBlockchains() ([]*data.Blockchain, error) {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 
@@ -171,7 +171,7 @@ func (s *SimpleBlockchainService) ListBlockchains() ([]*data.Blockchain, error) 
 	return bcs, nil
 }
 
-func (s *SimpleBlockchainService) ListBlocks(id string) ([]*data.Block, error) {
+func (s *simpleBlockchainService) ListBlocks(id string) ([]*data.Block, error) {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 
@@ -183,7 +183,7 @@ func (s *SimpleBlockchainService) ListBlocks(id string) ([]*data.Block, error) {
 	return bc.Blocks, nil
 }
 
-func (s *SimpleBlockchainService) DeleteBlockchain(id string) error {
+func (s *simpleBlockchainService) DeleteBlockchain(id string) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 
