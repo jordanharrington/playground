@@ -14,7 +14,7 @@ const (
 func (at ArgType) Name() string {
 	switch at {
 	case StringArg:
-		return "Name"
+		return "String"
 	case IntArg:
 		return "Int"
 	case FloatArg:

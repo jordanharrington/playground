@@ -179,8 +179,7 @@ func (r *REPL) printCommandUsage(commandName string) {
 // Help returns a handler function for the 'help' command that lists all available commands and their usage.
 func (r *REPL) Help() func(args map[string]interface{}) (bool, error) {
 	return func(args map[string]interface{}) (bool, error) {
-		for name, cmd := range r.commands {
-			fmt.Printf("%s: %s\n", name, cmd.Description)
+		for name := range r.commands {
 			r.printCommandUsage(name)
 		}
 		return false, nil
