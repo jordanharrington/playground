@@ -1,4 +1,4 @@
-Dockerfile
+../../Dockerfile
 *.pyc
 __pycache__/
 requirments.in

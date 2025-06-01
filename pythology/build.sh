@@ -1,8 +1,10 @@
 #!/bin/bash
 
 BUILDER_NAME="pythology-builder"
+REGISTRY="ghcr.io/jordanharrington/playground"
+PLATFORMS="linux/arm64,linux/amd64"
 
-function init_buildx() {
+init_buildx() {
   if ! docker buildx inspect "$BUILDER_NAME" > /dev/null 2>&1; then
     echo "Creating new buildx builder: $BUILDER_NAME"
     docker buildx create --name "$BUILDER_NAME" --use
@@ -12,17 +14,16 @@ function init_buildx() {
   fi
 }
 
-function build_extractor() {
+build_extractor() {
   init_buildx
-
   source ./pipeline/extract/version.sh
-
   docker buildx build \
-  --platform linux/arm64,linux/amd64 \
+  --progress=plain \
+  --platform "$PLATFORMS" \
   --build-arg PYTHON="$PYTHON_VERSION" \
   --build-arg API_VERSION="$API_VERSION" \
   -f pipeline/extract/Dockerfile \
-  -t ghcr.io/jordanharrington/playground/pythology-extractor:dev-"$SEMVER" \
-  -t ghcr.io/jordanharrington/playground/pythology-extractor:dev-latest \
-  . --push
+  -t "$REGISTRY"/pythology-extractor:dev-"$SEMVER" \
+  -t "$REGISTRY"/pythology-extractor:dev-latest \
+  . --push || true
 }
