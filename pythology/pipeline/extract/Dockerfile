@@ -7,17 +7,11 @@ WORKDIR /builder
 
 RUN pip install --no-cache-dir pip-tools
 
-COPY pipeline/extract/requirments.in ./extractor-requirments.in
-COPY common/api/${API_VERSION}/requirments.in ./api-${API_VERSION}-requirments.in
-COPY common/utils/requirments.in ./utils-requirments.in
+COPY pipeline/extract/requirements.in ./requirements/extractor.in
+COPY common/api/${API_VERSION}/requirements.in ./requirements/api.in
+COPY common/utils/requirements.in ./requirements/utils.in
 
-RUN cat extractor-requirments.in > combined.in
-RUN echo >> combined.in  # Add a blank line
-RUN cat api-${API_VERSION}-requirments.in >> combined.in
-RUN echo >> combined.in  # Add another blank line
-RUN cat utils-requirments.in >> combined.in
-
-RUN pip-compile combined.in --output-file=requirements.txt --strip-extras
+RUN pip-compile requirements/*.in --output-file=requirements.txt --strip-extras
 
 FROM python:${PYTHON}-slim
 
@@ -38,4 +32,4 @@ COPY --chown=1000:1000 --chmod=755 pipeline/extract/main.py .
 
 USER 1000
 
-CMD ["python", "main.py"]
+ENTRYPOINT ["python", "main.py"]

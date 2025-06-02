@@ -1,20 +1,21 @@
+import os
 from abc import ABC
+from typing import Dict
 
 import praw
 from praw.models import Submission
 
-from common.api.v1 import ExtractionConfig, RedditPost
+from common.api.v1 import RedditPost, RedditExtractorConfig
 from common.utils import load_ini, get_logger
 from pipeline.extract import BaseExtractor
 
-# Setup pyraw Reddit client
-config = load_ini('reddit_config.ini')
+config = load_ini(os.getenv('REDDIT_CONFIG', 'reddit_config.ini'))
 reddit = praw.Reddit(
     client_id=config['reddit']['client_id'],
     client_secret=config['reddit']['client_secret'],
     user_agent=config['reddit']['user_agent'],
 )
-# Setup logging
+
 logger = get_logger(__name__)
 
 
@@ -69,8 +70,8 @@ class RedditPostExtractor(BaseExtractor, ABC):
     def __init__(self):
         super().__init__()
 
-    def extract(self, extraction_config: ExtractionConfig) -> list[str]:
-        job_config = extraction_config.reddit
+    def extract(self, extraction_config: Dict[str, any]) -> list[str]:
+        job_config = RedditExtractorConfig(**extraction_config)
         if job_config is None:
             raise ValueError("Reddit config is empty")
 

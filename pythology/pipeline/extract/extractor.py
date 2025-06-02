@@ -1,10 +1,8 @@
 from abc import abstractmethod, ABC
-from typing import List
-
-from common.api.v1 import ExtractionConfig
+from typing import List, Dict
 
 
 class BaseExtractor(ABC):
     @abstractmethod
-    def extract(self, config: ExtractionConfig) -> List[str]:
+    def extract(self, config: Dict[str, any]) -> List[str]:
         pass

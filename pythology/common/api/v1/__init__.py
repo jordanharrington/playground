@@ -1,3 +1,3 @@
 from .reddit import RedditExtractorConfig, RedditPost
-from .config import ExtractionConfig, SourceType
-from .kafka import KafkaProducer
+from .config import JobConfig, SourceType, StageConfig, Stage
+from .objectstorage import ObjectStore, ObjectStorageConfig

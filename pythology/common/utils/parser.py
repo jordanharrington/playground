@@ -4,7 +4,7 @@ from typing import Any, Optional
 
 import yaml
 
-CONF_DIR = os.getenv("CONF_DIR", "/pythology/conf")
+CONF_DIR = os.getenv("CONF_DIR", "/conf")
 
 
 def load_yaml(config_path: str) -> Optional[dict[str, Any]]:
