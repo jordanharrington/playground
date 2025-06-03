@@ -5,7 +5,7 @@ from typing import Dict
 import praw
 from praw.models import Submission
 
-from common.api.v1 import RedditPost, RedditExtractorConfig
+from common.api import RedditPost, RedditExtractorConfig
 from common.utils import load_ini, get_logger
 from pipeline.extract import BaseExtractor
 

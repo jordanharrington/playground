@@ -10,12 +10,4 @@ venv/
 .vscode/
 .idea/
 
-.terraform/
-terraform.tfstate
-terraform.tfstate.backup
-*.tfplan
-
 .DS_Store
-
-conf/
-bin/
