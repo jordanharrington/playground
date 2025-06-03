@@ -21,7 +21,6 @@ build_extractor() {
   --progress=plain \
   --platform "$PLATFORMS" \
   --build-arg PYTHON="$PYTHON_VERSION" \
-  --build-arg API_VERSION="$API_VERSION" \
   -f pipeline/extract/Dockerfile \
   -t "$REGISTRY"/pythology-extractor:dev-"$SEMVER" \
   -t "$REGISTRY"/pythology-extractor:dev-latest \

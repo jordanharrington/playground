@@ -1,8 +1,8 @@
 import sys
 import json
-from common.api.v1 import ObjectStore, SourceType, JobConfig, Stage
+from common.api import ObjectStore, SourceType, JobConfig, Stage
 from common.utils import get_logger, load_yaml, trace
-from pipeline.extract import BaseExtractor
+from pipeline.extract.extractor import BaseExtractor
 from pipeline.extract.reddit import RedditPostExtractor
 
 logger = get_logger(__name__)

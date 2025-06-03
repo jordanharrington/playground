@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  extractor:
+    image: ghcr.io/jordanharrington/playground/pythology-extractor:dev-latest
+    pull_policy: always
+    volumes:
+      - ../conf:/conf
