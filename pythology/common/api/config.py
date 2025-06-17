@@ -3,11 +3,12 @@ from typing import Optional, Dict, Any
 
 from pydantic import BaseModel, field_validator
 
-from .objectstorage import ObjectStorageConfig
+from .object_storage import ObjectStorageConfig
 
 
 class Stage(str, Enum):
     EXTRACT = "extract"
+    TRANSFORM = "transform"
 
 
 class SourceType(str, Enum):

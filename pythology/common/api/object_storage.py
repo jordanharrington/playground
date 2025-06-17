@@ -42,8 +42,12 @@ class ObjectStore:
 
     def put(self, key, data):
         """Upload data (bytes) to the bucket with the given key."""
-        self.s3.put_object(Bucket=self.bucket, Key=key, Body=data)
-        logger.info(f"Uploaded {key} to {self.bucket}")
+        try:
+            self.s3.put_object(Bucket=self.bucket, Key=key, Body=data)
+            logger.info(f"Uploaded {key} to {self.bucket}")
+        except ClientError as e:
+            logger.error(f"Error Uploading {key}: {e}")
+            raise ValueError(e)
 
     def get(self, key):
         """Download data (bytes) from the bucket with the given key."""
@@ -52,4 +56,4 @@ class ObjectStore:
             return response['Body'].read()
         except ClientError as e:
             logger.error(f"Error fetching {key}: {e}")
-            return None
+            raise ValueError(e)
