@@ -1,31 +1,17 @@
-# Binaries and objects
-/bin/
-*.o
-*.a
+# .gitignore
 
-# Output of the go coverage tool
-*.out
+# Terraform
+*.tfstate
+*.tfstate.backup
+*.tfplan
+*.tfvars
+*.auto.tfvars
+crash.log
+.terraform/
+.terraform.lock.hcl
 
-# Dependency directories (remove the comment below if you want to check in your vendor directory)
-# /vendor/
-
-# Ignore generated files from the Go compiler
-**/*.test
-
-# Configuration files
-*.idea/
-*.vscode/
-
-# Operating System generated files
+# macOS
 .DS_Store
-.DS_Store?
 
-# Ignore build outputs
-/dist
-/tmp
-/build
-
-venv/
-__pycache__/
-*.pyc
-.env
+# JetBrains IDEs
+.idea/
