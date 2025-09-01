@@ -3,7 +3,7 @@ data "aws_iam_policy_document" "admin_role_trust_policy" {
     sid    = "AllowAssumeRole"
     effect = "Allow"
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = [var.admin_non_root_user_arn]
     }
     actions = ["sts:AssumeRole"]
@@ -25,8 +25,8 @@ resource "aws_iam_role_policy_attachment" "admin_access_attachment" {
 
 data "aws_iam_policy_document" "assume_admin_role_policy_doc" {
   statement {
-    effect = "Allow"
-    actions = ["sts:AssumeRole"]
+    effect    = "Allow"
+    actions   = ["sts:AssumeRole"]
     resources = [aws_iam_role.admin_role.arn]
   }
 }

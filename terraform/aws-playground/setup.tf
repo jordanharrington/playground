@@ -1,6 +1,7 @@
 locals {
   common_tags = {
-    source_project = "https://github.com/jordanharrington/playground"
+    source_project    = "https://github.com/jordanharrington/playground"
+    terraform_managed = "true"
   }
 }
 

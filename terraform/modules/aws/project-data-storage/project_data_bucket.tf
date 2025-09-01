@@ -48,15 +48,15 @@ data "aws_iam_policy_document" "secure_bucket_policy_doc" {
     sid    = "EnforceSecureTransport"
     effect = "Deny"
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = ["*"]
     }
-    actions = ["s3:*"]
-    resources = local.bucket_and_objects_arn # Use the local variable
+    actions   = ["s3:*"]
+    resources = local.bucket_and_objects_arn
     condition {
       test     = "Bool"
       variable = "aws:SecureTransport"
-      values = ["false"]
+      values   = ["false"]
     }
   }
 
@@ -64,15 +64,15 @@ data "aws_iam_policy_document" "secure_bucket_policy_doc" {
     sid    = "EnforceTLS12"
     effect = "Deny"
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = ["*"]
     }
-    actions = ["s3:*"]
+    actions   = ["s3:*"]
     resources = local.bucket_and_objects_arn
     condition {
       test     = "NumericLessThan"
       variable = "aws:TlsVersion"
-      values = ["1.2"]
+      values   = ["1.2"]
     }
   }
 
@@ -80,15 +80,15 @@ data "aws_iam_policy_document" "secure_bucket_policy_doc" {
     sid    = "DenyUnencryptedUploads"
     effect = "Deny"
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = ["*"]
     }
-    actions = ["s3:PutObject"]
+    actions   = ["s3:PutObject"]
     resources = ["${aws_s3_bucket.project_data_bucket.arn}/*"]
     condition {
       test     = "StringNotEquals"
       variable = "s3:x-amz-server-side-encryption"
-      values = ["aws:kms"]
+      values   = ["aws:kms"]
     }
   }
 }

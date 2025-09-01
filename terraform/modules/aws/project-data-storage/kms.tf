@@ -2,8 +2,8 @@ data "aws_caller_identity" "current" {}
 
 data "aws_iam_policy_document" "bucket_encryption_key_policy" {
   statement {
-    sid    = "AllowFullAccessForRootAndKeyAdmins"
-    effect = "Allow"
+    sid       = "AllowFullAccessForRootAndKeyAdmins"
+    effect    = "Allow"
     resources = ["*"]
     principals {
       type = "AWS"
@@ -16,12 +16,12 @@ data "aws_iam_policy_document" "bucket_encryption_key_policy" {
   }
 
   statement {
-    sid    = "AllowUseOfTheKeyForServices"
-    effect = "Allow"
+    sid       = "AllowUseOfTheKeyForServices"
+    effect    = "Allow"
     resources = ["*"]
 
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = [var.key_admin_arn]
     }
     actions = [
@@ -37,7 +37,7 @@ data "aws_iam_policy_document" "bucket_encryption_key_policy" {
     sid    = "AllowS3ToUseTheKeyForTheBucket"
     effect = "Allow"
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["s3.amazonaws.com"]
     }
     actions = [
@@ -48,7 +48,7 @@ data "aws_iam_policy_document" "bucket_encryption_key_policy" {
     condition {
       test     = "ArnLike"
       variable = "aws:SourceArn"
-      values = [aws_s3_bucket.project_data_bucket.arn]
+      values   = [aws_s3_bucket.project_data_bucket.arn]
     }
   }
 }
