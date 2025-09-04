@@ -1,6 +1,7 @@
 module "account-resources" {
   source                  = "../modules/aws/account-resources"
   admin_non_root_user_arn = var.playground_admin_user_arn
+  gh_runner_allowed_repos        = ["jordanharrington/bsync"]
   common_tags             = local.common_tags
 }
 

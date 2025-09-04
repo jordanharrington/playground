@@ -6,9 +6,9 @@ resource "random_id" "repo_suffix" {
 
 data "aws_iam_policy_document" "ecr_kms_key_policy_doc" {
   statement {
-    sid    = "AllowFullAccessForRootAndKeyAdmins"
-    effect = "Allow"
-    actions = ["kms:*"]
+    sid       = "AllowFullAccessForRootAndKeyAdmins"
+    effect    = "Allow"
+    actions   = ["kms:*"]
     resources = ["*"]
     principals {
       type = "AWS"
@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "ecr_kms_key_policy_doc" {
     ]
     resources = ["*"]
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["ecr.amazonaws.com"]
     }
   }
