@@ -1,5 +1,5 @@
 locals {
-  gh_actions_runner_prefix = "aws-playground-github-actions-runner"
+  gh_actions_runner_prefix = "bsync-github-actions-runner"
 }
 
 resource "aws_iam_openid_connect_provider" "github" {
@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "gh_oidc_assume_role" {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
       values = [
-        for r in var.gh_runner_allowed_repos : "repo:${r}:*"
+        "repo:jordanharrington/bsync:*"
       ]
     }
   }
@@ -65,7 +65,7 @@ data "aws_iam_policy_document" "ecr_push_policy" {
       "ecr:DescribeRepositories",
     ]
     resources = [
-      aws_ecr_repository.playground_ecr.arn
+      aws_ecr_repository.bsync-gateway.arn
     ]
   }
 }
