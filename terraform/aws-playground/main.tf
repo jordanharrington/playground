@@ -12,8 +12,23 @@ module "project-data-storage" {
 }
 
 module "bsync-infra" {
-  source                  = "../modules/aws/bsync-infra"
-  common_tags             = local.common_tags
+  source                  = "../modules/aws/bsync/infra"
   admin_non_root_user_arn = var.playground_admin_user_arn
   ecr_kms_key_arn         = module.account-resources.ecr_kms_key_arn
+  common_tags             = local.common_tags
+}
+
+module "bsync-lambda" {
+  source           = "../modules/aws/bsync/lambda"
+  lambda_image_tag = "${module.bsync-infra.ecr_repository_url}:1.0.0"
+  lambda_role_name = "bsync-lambda-exec"
+  target_s3_buckets = [
+    {
+      bucket      = module.project-data-storage.bucket.bucket
+      region      = module.project-data-storage.bucket.region
+      kms_key_arn = module.project-data-storage.bucket_key_arn
+      ops = toset(["put"])
+    },
+  ]
+  common_tags = local.common_tags
 }

@@ -9,7 +9,7 @@ variable "key_admin_arn" {
 }
 
 variable "common_tags" {
-  type        = map(string)
+  type = map(string)
   description = "A map of common tags to apply to all resources."
-  default     = {}
+  default = {}
 }
