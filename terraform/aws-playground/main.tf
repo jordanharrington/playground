@@ -32,3 +32,10 @@ module "bsync-lambda" {
   ]
   common_tags = local.common_tags
 }
+
+module "bsync-aws-gateway" {
+  source      = "../modules/aws/bsync/gateway"
+  name        = "bsync-gateway"
+  lambda_arn  = module.bsync-lambda.lambda_arn
+  common_tags = local.common_tags
+}
